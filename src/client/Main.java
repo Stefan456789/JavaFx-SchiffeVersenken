@@ -1,13 +1,10 @@
-package Client;
+package client;
 
-import Client.fxml.GameController;
-import Client.fxml.LeaderboardController;
-import Client.fxml.MenuController;
+import client.fxml.MenuController;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;

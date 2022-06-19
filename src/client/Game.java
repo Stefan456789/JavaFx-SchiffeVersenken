@@ -1,6 +1,6 @@
-package Client;
+package client;
 
-import Client.fxml.GameController;
+import client.fxml.GameController;
 
 import java.util.ArrayList;
 import java.util.List;

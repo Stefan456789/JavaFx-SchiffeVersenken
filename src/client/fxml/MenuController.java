@@ -1,8 +1,6 @@
-package Client.fxml;
+package client.fxml;
 
-import Client.Game;
-import Client.Main;
-import Client.Player;
+import client.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.event.AncestorEvent;
 import java.io.IOException;
 
 public class MenuController {
