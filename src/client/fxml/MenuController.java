@@ -47,18 +47,28 @@ public class MenuController {
     private void onGegenComputer(ActionEvent event) {
         try {
             if (nameField.getText().length() < 3) {
+
                 System.out.println("error");
                 textError.setVisible(true);
                 return;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Game.fxml"));
+          
+/*
+            GameController controller = loader.getController();
+            controller.setStage(stage);
+            Parent root = (Parent) loader.load();
+            stage.setScene(new Scene(root, ((AnchorPane) root).getPrefHeight(), ((AnchorPane) root).getPrefWidth()));
+*/
             Parent root = (Parent) loader.load();
             GameController controller = loader.getController();
             controller.setStage(stage);
             stage.setScene(new Scene(root, ((AnchorPane) root).getPrefHeight(), ((AnchorPane) root).getPrefWidth()));
             stage.setX(0);
             stage.setY(0);
+
+  
         } catch (IOException ex) {
             ex.printStackTrace();
         }

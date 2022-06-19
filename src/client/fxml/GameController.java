@@ -25,22 +25,24 @@ public class GameController {
     public List<Integer> existingShips = new ArrayList<>();
 
 
+
     private Stage stage;
     private Parent root;
 
-
-    public void changeTile(int x, int y, boolean color) {
+    public void changeTile(int x, int y, boolean color, GridPane grid){
         x++;
         y++;
-        for (Node n : spielerPane.getChildren()) {
+        for (Node n : grid.getChildren()){
             if (n instanceof Pane)
-                if (GridPane.getColumnIndex(n) == y && GridPane.getRowIndex(n) == x) {
-                    if (color) {
+                if (GridPane.getColumnIndex(n) == y && GridPane.getRowIndex(n) == x){
+                    if (color){
 
                         n.setStyle("-fx-background-color: #000;");
-                    } else
+                    }
+                    else
                         n.setStyle("-fx-background-color: #FFF;");
-                }
+            }
+
         }
     }
 
@@ -50,6 +52,7 @@ public class GameController {
             if (n instanceof Pane)
                 if (GridPane.getColumnIndex(n) == y && GridPane.getRowIndex(n) == x) {
                     return n.getStyle().contains("-fx-background-color: #000;");
+
                 }
         }
         return false;
@@ -60,7 +63,34 @@ public class GameController {
         this.stage = Main.stage;
     }
 
+/*
+    @FXML
+    public void initialize(){
+        for (Node n : spielerPane.getChildren()){
+            if (n instanceof Pane)
 
+                n.setStyle("-fx-background-color: #FFF;");
+                n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        changeTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1, !getTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1), spielerPane);
+                    }
+                });
+        }
+
+
+
+
+        for (Node n : gegnerPane.getChildren()){
+            if (n instanceof Pane)
+
+                n.setStyle("-fx-background-color: #FFF;");
+            n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    changeTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1, !getTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1), gegnerPane);
+
+*/
     @FXML
     public void initialize() {
         for (Node n : spielerPane.getChildren()) {
@@ -127,6 +157,7 @@ public class GameController {
                         System.out.println("There is a " + ships + " long ship");
 
                     changeTile(x - 1, y - 1, !getTile(x, y));
+
 
                 }
             });
