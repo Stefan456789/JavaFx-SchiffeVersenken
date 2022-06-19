@@ -13,6 +13,7 @@ public final class Game {
     public static void start(Player player, GameController gameController){
 
 
+
         leaderboard.add(player.name);
     }
 }

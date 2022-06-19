@@ -32,7 +32,6 @@ public class GameBoardPickerController {
                         n.setStyle("-fx-background-color: #000;");
                     else
                         n.setStyle("-fx-background-color: #FFF;");
-
             }
         }
     }
