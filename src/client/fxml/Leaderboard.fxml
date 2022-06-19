@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="380.0" style="-fx-background-color: #c8ced0;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.fxml.LeaderboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="380.0" style="-fx-background-color: #c8ced0;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.fxml.LeaderboardController">
    <children>
       <Text layoutX="92.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Leaderboard">
          <font>

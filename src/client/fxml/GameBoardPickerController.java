@@ -1,8 +1,5 @@
-package Client.fxml;
+package client.fxml;
 
-import Client.Game;
-import Client.Main;
-import Client.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,7 +32,6 @@ public class GameBoardPickerController {
                         n.setStyle("-fx-background-color: #000;");
                     else
                         n.setStyle("-fx-background-color: #FFF;");
-
             }
         }
     }

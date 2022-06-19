@@ -1,8 +1,6 @@
-package Client.fxml;
+package client.fxml;
 
-import Client.Game;
-import Client.Main;
-import Client.Player;
+import client.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +11,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import javax.swing.event.AncestorEvent;
 import java.io.IOException;
 
 public class MenuController {
@@ -50,15 +47,18 @@ public class MenuController {
     private void onGegenComputer(ActionEvent event) {
         try {
             if (nameField.getText().length() < 3) {
+                System.out.println("error");
                 textError.setVisible(true);
                 return;
             }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Game.fxml"));
+            Parent root = (Parent) loader.load();
             GameController controller = loader.getController();
             controller.setStage(stage);
-            Parent root = (Parent) loader.load();
             stage.setScene(new Scene(root, ((AnchorPane) root).getPrefHeight(), ((AnchorPane) root).getPrefWidth()));
+            stage.setX(0);
+            stage.setY(0);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
