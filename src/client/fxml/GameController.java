@@ -1,5 +1,6 @@
 package client.fxml;
 
+import client.Connector;
 import client.Main;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,10 +25,15 @@ public class GameController {
     public List<Integer> possibleShips = Arrays.asList(4,3,2,1);
     public List<Integer> existingShips = new ArrayList<>();
 
+    int numbPossibleShips = 20;
+    int numbExistingShips = 0;
 
 
     private Stage stage;
     private Parent root;
+
+    public boolean started = false;
+    public boolean myTurn = false;
 
     public void changeTile(int x, int y, boolean color, GridPane grid){
         x++;
@@ -93,6 +99,39 @@ public class GameController {
 */
     @FXML
     public void initialize() {
+
+        initPlayer();
+        initOpponent();
+
+
+    }
+
+    private void initOpponent(){
+        for (Node n : gegnerPane.getChildren()) {
+            if (n instanceof Pane)
+
+                n.setStyle("-fx-background-color: #FFF;");
+                n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if (!started || !myTurn)
+                            return;
+
+                        int x = GridPane.getRowIndex(n);
+                        int y = GridPane.getColumnIndex(n);
+
+                        Main.c.send("fire;x;y");
+
+
+
+                    }
+                });
+        }
+    }
+
+
+    private void initPlayer(){
         for (Node n : spielerPane.getChildren()) {
             if (n instanceof Pane)
 
@@ -100,9 +139,13 @@ public class GameController {
             n.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
+
+                    if (started)
+                        return;
+
                     int x = GridPane.getRowIndex(n);
                     int y = GridPane.getColumnIndex(n);
-                    int length = 1;
+
 
 
                     if (getTile(x - 1, y - 1) ||
@@ -111,6 +154,7 @@ public class GameController {
                             getTile(x + 1, y + 1)
                     ) return;
 
+                    int length = 1;
 
                     while (true) {
                         if (getTile(x + length, y)) {
@@ -129,7 +173,7 @@ public class GameController {
 
                         break;
                     }
-
+/*
                     int allowedships = possibleShips.get(length-1);
 
                     for (int ship : existingShips){
@@ -155,8 +199,17 @@ public class GameController {
 
                     for (int ships : existingShips)
                         System.out.println("There is a " + ships + " long ship");
+*/
+                    if (n.getStyle().contains("-fx-background-color: #000;"))
+                        numbExistingShips--;
+                    else {
+                        if (numbExistingShips + 1 > numbPossibleShips || length > 4)
+                            return;
+                        numbExistingShips++;
+                    }
 
-                    changeTile(x - 1, y - 1, !getTile(x, y));
+
+                    changeTile(x - 1, y - 1, !getTile(x, y), spielerPane);
 
 
                 }

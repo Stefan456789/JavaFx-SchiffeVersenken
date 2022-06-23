@@ -1,11 +1,14 @@
 package client.fxml;
 
+import client.Game;
 import client.Main;
+import client.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -20,41 +23,46 @@ public class MenuController {
     public Text textError;
     @FXML
     private TextField nameField;
+    @FXML
+    public ListView<Player> playerList;
 
 
     @FXML
     private void onGegnerSuchen(ActionEvent event) {
-        try {
-            if (nameField.getText().length() < 3) {
-                System.out.println("error");
-                textError.setVisible(true);
-                return;
-            }
+        if (nameField.getText().length() < 3) {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Game.fxml"));
-            Parent root = (Parent) loader.load();
-            GameController controller = loader.getController();
-            controller.setStage(stage);
-            stage.setScene(new Scene(root, ((AnchorPane) root).getPrefHeight(), ((AnchorPane) root).getPrefWidth()));
-            stage.setX(0);
-            stage.setY(0);
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            System.out.println("error");
+            textError.setVisible(true);
+
+
+
+            return;
         }
+        initGame();
     }
 
     @FXML
     private void onGegenComputer(ActionEvent event) {
-        try {
-            if (nameField.getText().length() < 3) {
+        if (nameField.getText().length() < 3) {
 
-                System.out.println("error");
-                textError.setVisible(true);
-                return;
-            }
+            System.out.println("error");
+            textError.setVisible(true);
+            return;
+        }
+        initGame();
+    }
+
+    @FXML
+    public void initialize() {
+        playerList.getItems().addAll(Main.g.recieveAllWaitingPlayers());
+    }
+
+    private void initGame() {
+        try {
+
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Game.fxml"));
-          
+
 /*
             GameController controller = loader.getController();
             controller.setStage(stage);
@@ -68,7 +76,7 @@ public class MenuController {
             stage.setX(0);
             stage.setY(0);
 
-  
+
         } catch (IOException ex) {
             ex.printStackTrace();
         }

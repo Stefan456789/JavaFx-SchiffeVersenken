@@ -17,6 +17,7 @@ public class Main extends Application {
     private static String ip = "127.0.0.1";
 
     public static Connector c;
+    public static Game g;
 
     @Override
     public void start(Stage primaryStage) {
