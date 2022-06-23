@@ -2,6 +2,7 @@ package client.fxml;
 
 import client.Main;
 import client.Move;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -32,7 +33,7 @@ public class GameController {
     private GridPane gegnerPane;
 
 
-    public List<Integer> possibleShips = Arrays.asList(4,3,2,1);
+    public List<Integer> possibleShips = Arrays.asList(4, 3, 2, 1);
     public List<Integer> existingShips = new ArrayList<>();
 
     int numbPossibleShips = 20;
@@ -46,15 +47,16 @@ public class GameController {
     public boolean started = false;
     public boolean won = false;
 
-    public void changeTile(int x, int y, String color, GridPane grid){
+    public void changeTile(int x, int y, String color, GridPane grid) {
         x++;
         y++;
-        for (Node n : grid.getChildren()){
+        for (Node n : grid.getChildren()) {
             if (n instanceof Pane)
-                if (GridPane.getColumnIndex(n) == y && GridPane.getRowIndex(n) == x){
+                if (GridPane.getColumnIndex(n) == y && GridPane.getRowIndex(n) == x) {
 
-                    n.setStyle("-fx-background-color: #" + color + ";");;
-            }
+                    n.setStyle("-fx-background-color: #" + color + ";");
+                    ;
+                }
 
         }
     }
@@ -77,34 +79,34 @@ public class GameController {
         this.stage = Main.stage;
     }
 
-/*
-    @FXML
-    public void initialize(){
-        for (Node n : spielerPane.getChildren()){
-            if (n instanceof Pane)
+    /*
+        @FXML
+        public void initialize(){
+            for (Node n : spielerPane.getChildren()){
+                if (n instanceof Pane)
 
-                n.setStyle("-fx-background-color: #FFF;");
+                    n.setStyle("-fx-background-color: #FFF;");
+                    n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            changeTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1, !getTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1), spielerPane);
+                        }
+                    });
+            }
+
+
+
+
+            for (Node n : gegnerPane.getChildren()){
+                if (n instanceof Pane)
+
+                    n.setStyle("-fx-background-color: #FFF;");
                 n.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        changeTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1, !getTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1), spielerPane);
-                    }
-                });
-        }
+                        changeTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1, !getTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1), gegnerPane);
 
-
-
-
-        for (Node n : gegnerPane.getChildren()){
-            if (n instanceof Pane)
-
-                n.setStyle("-fx-background-color: #FFF;");
-            n.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    changeTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1, !getTile(GridPane.getRowIndex(n)-1,GridPane.getColumnIndex(n)-1), gegnerPane);
-
-*/
+    */
     @FXML
     public void initialize() {
 
@@ -114,95 +116,97 @@ public class GameController {
 
     }
 
-    private void initOpponent(){
+    private void initOpponent() {
         for (Node n : gegnerPane.getChildren()) {
             if (n instanceof Pane)
 
                 n.setStyle("-fx-background-color: #FFF;");
-                n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            n.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
-                    @Override
-                    public void handle(MouseEvent event) {
-                        if (!started || won)
-                            return;
+                @Override
+                public void handle(MouseEvent event) {
+                    if (!started || won)
+                        return;
 
-                        int x = GridPane.getRowIndex(n);
-                        int y = GridPane.getColumnIndex(n);
+                    int x = GridPane.getRowIndex(n);
+                    int y = GridPane.getColumnIndex(n);
 
 
-                        if (/*getTile(x - 1, y - 1, gegnerPane) ||
+                    if (/*getTile(x - 1, y - 1, gegnerPane) ||
                                 getTile(x - 1, y + 1, gegnerPane) ||
                                 getTile(x + 1, y - 1, gegnerPane) ||
                                 getTile(x + 1, y + 1, gegnerPane) ||*/
-                                n.getStyle().contains("-fx-background-color: #F00") ||
-                                n.getStyle().contains("-fx-background-color: #AAA")
-                        ) return;
+                            n.getStyle().contains("-fx-background-color: #F00") ||
+                                    n.getStyle().contains("-fx-background-color: #AAA")
+                    ) return;
 
 
-
-                        Move m = Main.g.fire(new Move(x,y, false));
-                        if (getTile(m.getX(), m.getY(), spielerPane)){
-                            changeTile(m.getX()-1, m.getY()-1, "F00" , spielerPane);
-                            numbDeadShips++;
-                            if (numbDeadShips > 20){
-                                wonText.setText("You lost!");
-                                goToMain();
-                            }
+                    Move m = Main.g.fire(new Move(x, y, false));
+                    if (getTile(m.getX(), m.getY(), spielerPane)) {
+                        changeTile(m.getX() - 1, m.getY() - 1, "F00", spielerPane);
+                        numbDeadShips++;
+                        if (numbDeadShips > 20) {
+                            wonText.setText("You lost!");
+                            goToMain();
                         }
-
-                        if (m.wasLastShotHit()){
-                            changeTile(x - 1, y - 1, "F00" , gegnerPane);
-                            numbHitShips++;
-                            if (numbHitShips > 20){
-                                goToMain();
-                            }
-                        }
-                        else
-                            changeTile(x - 1, y - 1, "AAA" , gegnerPane);
                     }
 
-                    private void goToMain() {
-                        won = true;
-                        wonText.setVisible(true);
-                        System.out.println("Sleeping");
-                        Thread wait = new Thread(new Runnable() {
+                    if (m.wasLastShotHit()) {
+                        changeTile(x - 1, y - 1, "F00", gegnerPane);
+                        numbHitShips++;
+                        if (numbHitShips > 20) {
+                            goToMain();
+                        }
+                    } else
+                        changeTile(x - 1, y - 1, "AAA", gegnerPane);
+                }
 
-                            @Override
-                            public void run() {
-                                try {
-                                    Thread.sleep(3000);
-
-                                    System.out.println("Slept");
-                                    wonText.setVisible(false);
-                                    FXMLLoader loader = new FXMLLoader(getClass().
-                                            getResource("Menu.fxml"));
-                                    Parent root = null;
-                                    try {
-                                        root = (Parent) loader.load();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                    stage = Main.primaryStage;
-
-                                    Scene scene = new Scene(root);
-                                    stage.setScene(scene);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                private void goToMain() {
+                    won = true;
+                    wonText.setVisible(true);
+                    System.out.println("Sleeping");
+                    Task<Void> sleeper = new Task<Void>() {
+                        @Override
+                        protected Void call() throws Exception {
+                            try {
+                                Thread.sleep(3000);
+                            } catch (InterruptedException e) {
                             }
-                        });
+                            return null;
+                        }
+                    };
+                    sleeper.setOnSucceeded(event -> new Runnable() {
+                        @Override
+                        public void run() {
 
-                        wait.start();
+                            System.out.println("Slept");
+                            wonText.setVisible(false);
+                            FXMLLoader loader = new FXMLLoader(getClass().
+                                    getResource("Menu.fxml"));
+                            Parent root = null;
+                            try {
+                                root = (Parent) loader.load();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            stage = Main.primaryStage;
+
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                        }
+                    }.run());
+                    new Thread(sleeper).start();
 
 
-                    }
-                });
+                }
+            });
         }
     }
 
 
-    private void initPlayer(){
+    private void initPlayer() {
+        startButton.setDisable(true);
         for (Node n : spielerPane.getChildren()) {
             if (n instanceof Pane)
 
@@ -216,7 +220,6 @@ public class GameController {
 
                     int x = GridPane.getRowIndex(n);
                     int y = GridPane.getColumnIndex(n);
-
 
 
                     if (getTile(x - 1, y - 1, spielerPane) ||
@@ -271,11 +274,15 @@ public class GameController {
                     for (int ships : existingShips)
                         System.out.println("There is a " + ships + " long ship");
 */
-                    if (n.getStyle().contains("-fx-background-color: #000;"))
+                    if (n.getStyle().contains("-fx-background-color: #000;")) {
+                        startButton.setDisable(true);
                         numbExistingShips--;
-                    else {
+                    }else {
                         if (numbExistingShips + 1 > numbPossibleShips || length > 4)
                             return;
+                        if (numbExistingShips + 2 > numbPossibleShips){
+                            startButton.setDisable(false);
+                        }
                         numbExistingShips++;
                     }
 
@@ -292,6 +299,7 @@ public class GameController {
     }
 
     public void startGame(ActionEvent actionEvent) {
+
         started = true;
         startButton.setDisable(true);
     }

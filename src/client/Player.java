@@ -25,15 +25,18 @@ public class Player {
     public Move fire(Move m){
         if (bot){
             boolean wasHit = (int) (Math.random() * 5) == 0;
-            if (!wasHit){
+            if (!wasHit)
                 botSaidNo++;
-                if (botSaidNo >= 79)
-                    wasHit = true;
-            } else
-                botSaidNo--;
+
+            if (botSaidNo >= 80)
+                wasHit = true;
+
+            System.out.println(botSaidNo);
+
             Move nextMove = null;
             while (nextMove == null || !pastMoves.add(nextMove))
                 nextMove = new Move((int) (Math.random() * 10),(int) (Math.random() * 10), wasHit);
+
             return nextMove;
         }
         String response = Main.c.send("shoot;;" + m.x + ";" + m.y);
