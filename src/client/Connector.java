@@ -18,16 +18,15 @@ public class Connector {
         this.r = new BufferedReader(new InputStreamReader(s.getInputStream()));
     }
 
-    public String recieve(){
+
+
+    public String send(String msg){
+        p.println(msg);
         try {
             return r.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void send(String msg){
-        p.println(msg);
     }
 }

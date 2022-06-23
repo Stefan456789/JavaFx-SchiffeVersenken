@@ -14,14 +14,24 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.fxml.GameController">
     <children>
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="1.0E10" prefWidth="1.0E10" />
+         </children>
+      </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="17.0" prefWidth="1900.0" spacing="950.0">
+            <HBox alignment="CENTER" prefHeight="17.0" prefWidth="1900.0" spacing="400.0">
                <children>
                   <Text fx:id="spieler" strokeType="OUTSIDE" strokeWidth="0.0" text="Spieler" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="24.0" />
                      </font></Text>
+                  <Text fx:id="wonText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="You won!" textAlignment="CENTER" visible="false">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
                   <Text fx:id="gegner" strokeType="OUTSIDE" strokeWidth="0.0" text="Gegner" textAlignment="CENTER" HBox.hgrow="ALWAYS">
                      <font>
                         <Font size="24.0" />
@@ -557,15 +567,20 @@
                      </children>
                   </GridPane>
                </children></HBox>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                    <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="127.0" style="-fx-font-weight: bold;" text="Leaderboard">
+                    <Button fx:id="startButton" mnemonicParsing="false" onAction="#startGame" prefHeight="47.0" prefWidth="127.0" style="-fx-font-weight: bold;" text="Start" AnchorPane.leftAnchor="0.0">
                         <font>
                             <Font size="15.0" />
                         </font>
                     </Button>
+                  <Button disable="true" mnemonicParsing="false" onAction="#openLeaderBoard" prefHeight="47.0" prefWidth="127.0" style="-fx-font-weight: bold;" text="Leaderboard" AnchorPane.rightAnchor="0.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
                </children>
-            </HBox>
+            </AnchorPane>
          </children>
       </VBox>
     </children>

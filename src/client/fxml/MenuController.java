@@ -26,6 +26,9 @@ public class MenuController {
     @FXML
     public ListView<Player> playerList;
 
+    private Player p;
+    private Player opponent;
+
 
     @FXML
     private void onGegnerSuchen(ActionEvent event) {
@@ -34,10 +37,27 @@ public class MenuController {
             System.out.println("error");
             textError.setVisible(true);
 
+            return;
+        }
+        nameField.setDisable(true);
+        textError.setVisible(false);
 
+        p = new Player(false, nameField.getText());
+        if (playerList.getSelectionModel().getSelectedIndices().isEmpty()){
+
+            if (playerList.getItems().contains(p))
+                return;
+            playerList.getItems().add(p);
+            opponent = Main.g.queue(nameField.getText());
 
             return;
         }
+
+        if (opponent == null)
+            Main.g.start(p, playerList.getSelectionModel().getSelectedItem());
+        else
+            Main.g.start(p, opponent);
+
         initGame();
     }
 
@@ -49,6 +69,7 @@ public class MenuController {
             textError.setVisible(true);
             return;
         }
+        Main.g.start(new Player(false, nameField.getText()) ,new Player(true));
         initGame();
     }
 

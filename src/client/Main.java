@@ -19,8 +19,11 @@ public class Main extends Application {
     public static Connector c;
     public static Game g;
 
+    public static Stage primaryStage;
+
     @Override
     public void start(Stage primaryStage) {
+        this.primaryStage = primaryStage;
         MenuController controller;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().
@@ -50,6 +53,7 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        g = new Game();
         launch(args);
     }
 }
